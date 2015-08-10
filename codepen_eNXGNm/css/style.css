@@ -1,0 +1,12 @@
+         body { margin: 0; 
+         background: #333
+         }
+            .menu {
+                position: absolute;
+                top: 3em;
+                left: 1em;
+            }
+            .menu a {
+                color: #fff;
+            }
+  
