@@ -11,13 +11,22 @@
         Constraint = Matter.Constraint,
         Events = Matter.Events,
         Bounds = Matter.Bounds,
+        Sprites = Matter.Sprites,
         Vector = Matter.Vector,
         MouseConstraint = Matter.MouseConstraint,
         Mouse = Matter.Mouse,
         Query = Matter.Query;
 
     // create a Matter.js engine
-    var engine = Engine.create(document.body, {timing: {timeScale:.2}});
+    var engine = Engine.create(document.body, {
+        timing: {timeScale:.2},
+        render: {
+            options: {
+                wireframes: false,
+                background: 'http://brm.io/matter-js-demo/img/wall-bg.jpg'
+            }
+        }
+    });
     var _engine = engine,
         _mouseConstraint,
         _sceneEvents = [];
@@ -36,6 +45,9 @@
             ],
             position: [
                 [50,50]
+            ],
+            texture: [
+                'http://brm.io/matter-js-demo/img/box.png'
             ]
 
         },
@@ -47,6 +59,9 @@
             ],
             position: [
                 [50,50]
+            ],
+            texture: [
+                'http://brm.io/matter-js-demo/img/box.png'
             ]
 
         },
@@ -64,6 +79,12 @@
                 [20,70],
                 [50,70],
                 [80,70]
+            ],
+            texture: [
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png'
             ]
         },
 
@@ -80,6 +101,12 @@
                 [20,70],
                 [50,70],
                 [80,70]
+            ],
+            texture: [
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png'
             ]
         },
 
@@ -96,6 +123,12 @@
                 [20,70],
                 [50,70],
                 [80,70]
+            ],
+            texture: [
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png',
+                'http://brm.io/matter-js-demo/img/box.png'
             ]
         }
 
@@ -108,9 +141,23 @@
         for(var bi = 0; bi < _pagesettings[i].boxes.length;bi++) {
             var s =  _pagesettings[i].boxes[bi];
             var p = _pagesettings[i].position[bi];
+            var t = _pagesettings[i].texture[bi];
             s[0] = Math.round((s[0]*width)/100);
             s[1] = Math.round((s[1]*height)/100);
-            b.push(Bodies.rectangle(Math.round(Math.random()*width*2)-width*(1-p[0]/100),Math.round(Math.random()*height*2)-height*(1-p[1]/100),s[0],s[1],{frictionAir:.2}));
+            b.push(Bodies.rectangle(
+                Math.round(Math.random()*width*2)-width*(1-p[0]/100),
+                Math.round(Math.random()*height*2)-height*(1-p[1]/100),
+                s[0],
+                s[1],
+                {frictionAir: .2,
+                 render: {
+                    sprite: {
+                        texture: t,
+                        xScale: s[0]/100,
+                        yScale: s[1]/100
+                    }
+                 }
+             }));
         }
         _pagesettings[i].composite = Composite.create({bodies:b});
         _pagesettings[i].bodies = b;
