@@ -18,12 +18,14 @@
         Query = Matter.Query;
 
     // create a Matter.js engine
-    var engine = Engine.create(document.body, {
+    var engine = Engine.create(document.getElementById("canvas"), {
         timing: {timeScale:.2},
         render: {
             options: {
                 wireframes: false,
-                background: 'http://brm.io/matter-js-demo/img/wall-bg.jpg'
+                background: './img/background.png',
+				width: 576,
+				height: 480
             }
         }
     });
@@ -31,8 +33,8 @@
         _mouseConstraint,
         _sceneEvents = [];
     var _world = _engine.world;
-    var width = 600;
-    var height = 450;
+    var width = 100;
+    var height = 100;
     _mouseConstraint = MouseConstraint.create(_engine);
 
     World.add(_engine.world, _mouseConstraint);
@@ -41,30 +43,48 @@
         // 1
         {
             boxes: [
-                [80,60]
+                [336,192],
+				[288,96],
+				[96,96],
+				[96, 192]
             ],
             position: [
-                [50,50]
+                [48,48],
+				[96,288],
+				[432,96],
+				[432,240]
             ],
             texture: [
-                'http://brm.io/matter-js-demo/img/box.png'
+                './img/title.png',
+				'./img/Description288x96.png',
+				'./img/Icon96x96.png',
+				'./img/Date96x192.png'
             ]
 
-        },
+        } ,
 
         // 2
         {
             boxes: [
-                [80,60]
+                [192,192],
+				[144,96],
+				[192,96],
+				[240, 192]
             ],
             position: [
-                [50,50]
+                [48,96],
+				[96,336],
+				[288, 48],
+				[288, 192]
             ],
             texture: [
-                'http://brm.io/matter-js-demo/img/box.png'
+                './img/Photo192x192.png',
+				'./img/Graphic144x96.png',
+				'./img/Name192x96.png',
+				'./img/Description240x192.png'
             ]
 
-        },
+        }/*,
 
         // 3
         {
@@ -81,10 +101,10 @@
                 [80,70]
             ],
             texture: [
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png'
+                './img/owl.png',
+                './img/owl.png',
+				'./img/owl.png',
+				'./img/owl.png'
             ]
         },
 
@@ -103,10 +123,10 @@
                 [80,70]
             ],
             texture: [
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png'
+                './img/owl.png',
+                './img/owl.png',
+				'./img/owl.png',
+				'./img/owl.png'
             ]
         },
 
@@ -125,13 +145,13 @@
                 [80,70]
             ],
             texture: [
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png',
-                'http://brm.io/matter-js-demo/img/box.png'
+                './img/owl.png',
+                './img/owl.png',
+				'./img/owl.png',
+				'./img/owl.png'
             ]
         }
-
+*/
     ]
 
     // create two boxes and a ground
@@ -149,12 +169,10 @@
                 Math.round(Math.random()*height*2)-height*(1-p[1]/100),
                 s[0],
                 s[1],
-                {frictionAir: .2,
+                {frictionAir: .1,
                  render: {
                     sprite: {
-                        texture: t,
-                        xScale: s[0]/100,
-                        yScale: s[1]/100
+                        texture: t
                     }
                  }
              }));
@@ -195,13 +213,13 @@
             var body = bodies[bindex];
             var bsize = page.boxes[bindex];
             var bpos = page.position[bindex].slice();
-            bpos[0] = Math.round((bpos[0]*width)/100);
-            bpos[1] = Math.round((bpos[1]*height)/100);
+            bpos[0] = Math.round(bpos[0]);
+            bpos[1] = Math.round(bpos[1]);
             var pos = {
-                x1: bpos[0] - bsize[0]/2,
-                x2: bpos[0] + bsize[0]/2,
-                y1: bpos[1] - bsize[1]/2,
-                y2: bpos[1] + bsize[1]/2
+                x1: bpos[0],
+                x2: bpos[0] + bsize[0],
+                y1: bpos[1],
+                y2: bpos[1] + bsize[1]
             }
             Composite.addConstraint(composite,Constraint.create({
                 pointA : {x:pos.x1,y:pos.y1},
@@ -232,33 +250,6 @@
         });
 
     });
-    //var scene = new THREE.Scene();
-    //var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    //
-    //var renderer = new THREE.WebGLRenderer();
-    //renderer.setSize( window.innerWidth, window.innerHeight );
-    //document.body.appendChild( renderer.domElement );
-    //
-    //
-    //var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    //var material = [new THREE.MeshBasicMaterial( { color: 0x00ff00 } ),new THREE.MeshBasicMaterial( { color: 0x0000ff }),new THREE.MeshBasicMaterial( { color: 0xff0000 } )];
-    //var cubes = [new THREE.Mesh( geometry, material[0] ),new THREE.Mesh( geometry, material[1] ),new THREE.Mesh( geometry, material[2] )];
-    //
-    //for (var i = 0; i<cubes.length;i++) {
-    //    scene.add( cubes[i] );
-    //}
-    //
-    //cubes[1].position.x = 2;
-    //cubes[1].rotation.z = 1;
-    //cubes[2].position.y = 2;
-    //
-    //camera.position.z = 10;
-    //
-    //function render() {
-    //    requestAnimationFrame( render );
-    //    cubes[0].rotation.x += 0.1;
-    //    cubes[0].rotation.y += 0.1;
-    //    renderer.render( scene, camera );
-    //}
-    //render();
+
+	
 })(jQuery);
